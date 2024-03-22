@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import App from './App'
 
-import WidgetList from './components/Home/WidgetList'
+import WidgetList from './components/Home/Home'
 
 jest.mock('./components/WidgetList')
 

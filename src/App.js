@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 
 
-import WidgetList from './components/Home/WidgetList'
+import WidgetList from './components/Home/Home'
 import Header from './components/reusable/Header'
 import Footer from './components/reusable/Footer'
 
