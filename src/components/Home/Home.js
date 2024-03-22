@@ -6,19 +6,23 @@ import SearchBar from './SearchBar/SearchBar';
 import { fetchAllWidgets, fetchWidgetByName } from '../../services/widgetService';
 
 const WidgetList = () => {
+  //Widget elements
   const [widgets, setWidgets] = useState([])
-  const [displayOrder,setDisplayOrder]=useState(false);
-  const [searchText,setSearchText]=useState("");
+  //Modal state
+  
   // Pagination state
   const [paginationData, setPaginationData] = useState({
+    searchText:"",
     currentPage: 1,
     totalPages: 0,
     totalElements: 0,
-    pageSize: 2 // You can set default page size here
+    sort:false,
+    pageSize: 4 // You can set default page size here
 });
 
   useEffect(() => {
-    fetchWidgetByName(searchText,paginationData.currentPage-1,paginationData.pageSize,displayOrder)
+    fetchWidgetByName(paginationData.searchText,paginationData.currentPage-1,
+      paginationData.pageSize,paginationData.sort)
     .then((data)=>{
       const { content, totalPages, totalElements,pageNumber } = data;
       setWidgets(content)
@@ -30,13 +34,21 @@ const WidgetList = () => {
     });
     })
       .catch((error) => console.error('Error fetching widgets', error))
-  },[paginationData.currentPage,searchText])
+  },[paginationData.currentPage,paginationData.searchText,paginationData.sort])
 
   const onOrderChange = ()=>{
-    setDisplayOrder((prev) => !prev);
+    setPaginationData((prev)=>({
+      ...paginationData,
+    sort:!prev.sort,
+    currentPage:1,
+    }));
   }
   const onSearch=(text)=>{
-    setSearchText(text);
+    setPaginationData({
+      ...paginationData,
+      searchText:text,
+      currentPage:1,
+  });
   }
 
   // Pagination event handler
@@ -51,7 +63,7 @@ const WidgetList = () => {
   return (
     <Box mx="auto" my={10} width="80%">
       <Box width={"100%"} mb={3}>
-        <SearchBar searchText={searchText} displayOrder={displayOrder} onSearch={onSearch} onOrderChange={onOrderChange}/>      
+        <SearchBar searchText={paginationData.searchText} displayOrder={paginationData.sort} onSearch={onSearch} onOrderChange={onOrderChange}/>      
         <Divider style={{ margin: '8px 0', height: '1px', backgroundColor: '#ccc' }} variant="fullWidth" color="black"  />
 
       </Box>
@@ -61,18 +73,22 @@ const WidgetList = () => {
             <Typography  variant='h3'>Could not find elements</Typography>
           </Box>
         )}
-        {widgets.map((widget,index) => (
-          <WidgetCard key={index} widget={widget} ></WidgetCard>
+        {widgets.map((widget) => (
+          <WidgetCard key={widget.name} widget={widget} setWidgets={setWidgets} ></WidgetCard>
         ))}
       </Grid>
       {/* Pagination component */}
       {widgets.length>0 && 
+      <Box display="flex" justifyContent="center" width={'100%'} style={{ marginTop: '20px' }}>
+
+      
       <Pagination
         count={paginationData.totalPages}
         page={paginationData.currentPage}
         onChange={handleChangePage}
         style={{ marginTop: '20px' }}
       />
+      </Box>
     }
     </Box>
   );

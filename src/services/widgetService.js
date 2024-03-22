@@ -21,3 +21,14 @@ export const fetchWidgetByName=(name,page,size,sort)=>
           size: size,
           sort: sort // Add sorting parameter if needed
         }}).then((response) => response.data.result)
+
+
+export const updateWidgetByName=(name,formData)=>axios.patch(BASE_URL + `/${name}`,formData).then((response) =>{
+  console.log(formData)
+  return response.data;
+} )
+
+
+export const deleteWidgetByName=(name)=>axios.delete(BASE_URL+`/${name}`).then((response) =>{
+  return response.data;
+} )
