@@ -33,7 +33,7 @@ const WidgetCard = ({ widget,setWidgets }) => {
   const handleUpdate=(data)=>{
     console.log(data)
      //TODO call API again to make sure to pull the most updated data
-    updateWidgetByName(name,{price:data.price,description:data.description})
+    updateWidgetByName(name,{name:name,price:data.price,description:data.description})
     .then((data)=>{
       handleCloseModal()
       setWidgets(prevWidgets =>
