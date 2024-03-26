@@ -72,3 +72,6 @@ terraform.tfstate
 task_def.json
 app_spec.yml
 app_spec.zip
+
+#.env
+.env

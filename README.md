@@ -5,6 +5,10 @@ This [Create React App](https://github.com/facebook/create-react-app) project is
 ## Requirements
 
 Node 20 -- Node can be acquired using [Node Version Manager](https://github.com/nvm-sh/nvm)
+Once Node 20+ is installed, install the dependencies in the project directory by running `npm start`
+
+## Local development
+This projects allows the developer to point to different backend domains depending on specific needs, in the project directory there is a file named example.env which is an example for creating our own .env file, set the variable `REACT_APP_BASE_URL` depending on where you want to point
 
 ## Available Scripts
 
@@ -17,11 +21,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 

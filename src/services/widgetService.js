@@ -1,13 +1,12 @@
 import axios from 'axios'
-import env from '../utils/config';
 
-const BASE_URL = env[env.SETTING].url + "/v1/widgets";
-
+console.log(process.env);
+const BASE_URL = process.env.REACT_APP_BASE_URL + "/v1/widgets";
 export const fetchAllWidgets = (page,size) => axios.get(BASE_URL,{
     params: {
       page: page,
       size: size,
-      sort: false // Add sorting parameter if needed
+      sort: false 
     }}).then((response) =>{
     console.log(response)
     return response.data.result;
