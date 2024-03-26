@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import {Grid,Stack,Card,CardContent,Typography,Pagination,Box,Divider} from '@mui/material';
+import {Grid,Stack,Card,CardContent,Typography,Pagination,Box,Divider,Accordion,AccordionSummary,AccordionDetails} from '@mui/material';
 import WidgetCard  from './WidgetCard/WidgetCard'
 
 import SearchBar from './SearchBar/SearchBar';
 import { fetchAllWidgets, fetchWidgetByName } from '../../services/widgetService';
+import AddWidgetForm from './AddWidgetForm/AddWidgetForm';
+import AddIcon from '@mui/icons-material/Add';
 
 const WidgetList = () => {
   //Widget elements
@@ -20,13 +22,31 @@ const WidgetList = () => {
     pageSize: 4 // You can set default page size here
 });
 
-  useEffect(() => {
+//Accordion state
+const [expanded, setExpanded] = useState(false);
+
+  const handleAccordionClick = () => {
+    setExpanded((prevExpanded) => !prevExpanded);
+  };
+  const onResetWidgetsAndPagination=()=>{
+    setPaginationData({
+      searchText:"",
+      currentPage: 1,
+      totalPages: 0,
+      totalElements: 0,
+      sort:false,
+      pageSize: 4
+    })
+   fetchData('',1,4,false);
+    
+  }
+  const fetchData=(searchText,currentPage,pageSize,sort)=>{
     fetchWidgetByName(paginationData.searchText,paginationData.currentPage-1,
       paginationData.pageSize,paginationData.sort)
     .then((data)=>{
       const { content, totalPages, totalElements,pageNumber } = data;
       setWidgets(content)
-    
+      
       setPaginationData({
         ...paginationData,
         totalPages: totalPages,
@@ -34,6 +54,11 @@ const WidgetList = () => {
     });
     })
       .catch((error) => console.error('Error fetching widgets', error))
+  }
+  useEffect(() => {
+    fetchData(paginationData.searchText,paginationData.currentPage-1,
+      paginationData.pageSize,paginationData.sort);
+    
   },[paginationData.currentPage,paginationData.searchText,paginationData.sort])
 
   const onOrderChange = ()=>{
@@ -61,10 +86,25 @@ const WidgetList = () => {
   };
 
   return (
-    <Box mx="auto" my={10} width="80%">
+    <Box mx="auto" my={10} width="80%" pb={10} >
       <Box width={"100%"} mb={3}>
         <SearchBar searchText={paginationData.searchText} displayOrder={paginationData.sort} onSearch={onSearch} onOrderChange={onOrderChange}/>      
-        <Divider style={{ margin: '8px 0', height: '1px', backgroundColor: '#ccc' }} variant="fullWidth" color="black"  />
+        <Divider style={{ margin: '20px 0', height: '1px', backgroundColor: '#ccc' }} variant="fullWidth" color="black"  />
+
+        <Accordion expanded={expanded} onChange={handleAccordionClick}>
+      <AccordionSummary
+        expandIcon={<AddIcon />}
+        aria-controls="add-element-content"
+        id="add-element-header"
+      >
+        <Typography>Add Widget</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+      <AddWidgetForm onResetWidgetsAndPagination={onResetWidgetsAndPagination}></AddWidgetForm>
+      </AccordionDetails>
+    </Accordion>
+
+        <Divider style={{ margin: '20px 0', height: '1px', backgroundColor: '#ccc' }} variant="fullWidth" color="black"  />
 
       </Box>
       <Grid container spacing={2}>

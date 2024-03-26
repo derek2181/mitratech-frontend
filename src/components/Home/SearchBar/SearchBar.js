@@ -7,9 +7,8 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-
 const SearchBar = (props) => {
-    const { onSearch, onOrderChange,searchText,displayOrder } = props;
+    const { onSearch, onOrderChange,searchText,displayOrder,onAddHandler } = props;
   const handleSearchChange = (event) => {
     onSearch(event.target.value);
   };

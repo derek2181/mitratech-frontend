@@ -9,7 +9,7 @@ import Header from './components/reusable/Header'
 import Footer from './components/reusable/Footer'
 
 const App = () => {
-  return (<Box height={"100vh"} bgcolor={'#F5F5F5'}>
+  return (<Box height={"100vh"} bgcolor={'#F5F5F5'} overflow={'scroll'}>
     
     <Stack height={"100%"} padding={0}>
       <Header/>   

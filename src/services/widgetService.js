@@ -32,3 +32,8 @@ export const updateWidgetByName=(name,formData)=>axios.patch(BASE_URL + `/${name
 export const deleteWidgetByName=(name)=>axios.delete(BASE_URL+`/${name}`).then((response) =>{
   return response.data;
 } )
+
+
+export const addWidget=(formData)=>axios.post(BASE_URL,formData).then((response)=>{
+  return response.data;
+})
